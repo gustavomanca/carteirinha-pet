@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1093729807454",
+    "firebase_url": "https://carteirinha-pet-b9eff.firebaseio.com",
+    "project_id": "carteirinha-pet-b9eff",
+    "storage_bucket": "carteirinha-pet-b9eff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093729807454:android:a9fe25c0c931efe54818cf",
+        "android_client_info": {
+          "package_name": "app.manca.carteirinhapet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1093729807454-q7758bbk574o6fp0jua9mgj85t0cg7c5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.manca.carteirinhapet",
+            "certificate_hash": "fd8f67869ee28965b6f4051e3849455f420a0531"
+          }
+        },
+        {
+          "client_id": "1093729807454-430lo5v4d3esadg7euumpojf5uhp7g07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLvXKLld1W7_WgZaZTpdho3PCt6AQbrxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1093729807454-430lo5v4d3esadg7euumpojf5uhp7g07.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

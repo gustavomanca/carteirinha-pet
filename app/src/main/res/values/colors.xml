@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorBlackOlive">#423E37</color>
+    <color name="colorMeatBrown">#E3B23C</color>
+    <color name="colorEggshell">#423E37</color>
+    <color name="colorSpanishGray">#A39594</color>
+    <color name="colorGraniteGray">#6E675F</color>
+    <color name="colorIsabelline">#EEEEEE</color>
+</resources>
