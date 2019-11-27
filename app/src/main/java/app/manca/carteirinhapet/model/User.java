@@ -1,8 +1,13 @@
-package app.manca.carteirinhapet;
+package app.manca.carteirinhapet.model;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
+
+import app.manca.carteirinhapet.config.FirebaseSettings;
 
 public class User {
 
-    private String uid;
+    private String id;
     private String firstName;
     private String lastName;
     private String username;
@@ -12,12 +17,18 @@ public class User {
     public User() {
     }
 
-    public String getUid() {
-        return uid;
+    public void save() {
+        DatabaseReference firebaseRef = FirebaseSettings.getFirebase();
+        firebaseRef.child("users").child( getId() ).setValue( this );
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -52,6 +63,7 @@ public class User {
         this.email = email;
     }
 
+    @Exclude
     public String getPassword() {
         return password;
     }

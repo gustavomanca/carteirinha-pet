@@ -1,24 +1,24 @@
-package app.manca.carteirinhapet;
+package app.manca.carteirinhapet.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseApp;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.UUID;
-
+import app.manca.carteirinhapet.R;
+import app.manca.carteirinhapet.model.User;
 import app.manca.carteirinhapet.config.FirebaseSettings;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -27,6 +27,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     private Button backButton;
     private Button submitButton;
+    private User user;
+    private FirebaseAuth auth;
 
     EditText inputFirstName,
              inputLastName,
@@ -62,6 +64,12 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                user = new User();
+                user.setFirstName(inputFirstName.getText().toString());
+                user.setLastName(inputLastName.getText().toString());
+                user.setUsername(inputUsername.getText().toString());
+                user.setEmail(inputEmail.getText().toString());
+                user.setPassword(inputPassword.getText().toString());
                 userRegister();
 
                 // Redirects to MainActivity(Login interface) after Sign Up
@@ -72,21 +80,39 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void userRegister() {
 
-        User user = new User();
+        auth = FirebaseSettings.getFirebaseAuthentication();
 
-        user.setUid(UUID.randomUUID().toString());
-        user.setFirstName(inputFirstName.getText().toString());
-        user.setLastName(inputLastName.getText().toString());
-        user.setUsername(inputUsername.getText().toString());
-        user.setEmail(inputEmail.getText().toString());
-        user.setPassword(inputPassword.getText().toString());
+        auth.createUserWithEmailAndPassword(
+                user.getEmail(),
+                user.getPassword()
+        ).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
 
-        firebaseRef.child("users").child(user.getUid()).setValue(user);
+                if ( task.isSuccessful() ) {
 
-        // Clean up the form, after click on submit btn
-        cleanUpForm();
+                    Toast.makeText(
+                            SignUpActivity.this,
+                            "Usuário cadastrado com sucesso!",
+                            Toast.LENGTH_LONG
+                    ).show();
 
-        Toast.makeText(getApplicationContext(), "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
+                    FirebaseUser firebaseUser = task.getResult().getUser();
+                    user.setId( firebaseUser.getUid() );
+                    user.save();
+
+                    cleanUpForm();
+
+                } else {
+
+                    Toast.makeText(
+                            SignUpActivity.this,
+                            "Erro ao cadastrar usuário!",
+                            Toast.LENGTH_LONG
+                    ).show();
+                }
+            }
+        });
     }
 
     private void cleanUpForm() {

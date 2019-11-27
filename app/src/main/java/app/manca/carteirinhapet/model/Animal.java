@@ -1,4 +1,4 @@
-package app.manca.carteirinhapet;
+package app.manca.carteirinhapet.model;
 
 public class Animal {
 
