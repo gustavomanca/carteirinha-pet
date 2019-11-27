@@ -2,20 +2,30 @@ package app.manca.carteirinhapet;
 
 public class User {
 
-    private String name;
+    private String uid;
+    private String firstName;
     private String lastName;
+    private String username;
     private String email;
-    private String cpf;
+    private String password;
 
     public User() {
     }
 
-    public String getName() {
-        return name;
+    public String getUid() {
+        return uid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -26,6 +36,14 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -34,11 +52,16 @@ public class User {
         this.email = email;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getPassword() {
+        return password;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return username;
     }
 }
