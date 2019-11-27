@@ -19,7 +19,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.UUID;
 
+import app.manca.carteirinhapet.config.FirebaseSettings;
+
 public class SignUpActivity extends AppCompatActivity {
+
+    private DatabaseReference firebaseRef;
 
     private Button backButton;
     private Button submitButton;
@@ -31,15 +35,12 @@ public class SignUpActivity extends AppCompatActivity {
              inputPassword,
              inputPasswordConfirm;
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        firebaseInit();
+        firebaseRef = FirebaseSettings.getFirebase();
 
         inputFirstName = findViewById(R.id.inputFirstName);
         inputLastName = findViewById(R.id.inputLastName);
@@ -60,31 +61,32 @@ public class SignUpActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("name", inputFirstName.getText().toString());
 
-                User user = new User();
-
-                user.setUid(UUID.randomUUID().toString());
-                user.setFirstName(inputFirstName.getText().toString());
-                user.setLastName(inputLastName.getText().toString());
-                user.setUsername(inputUsername.getText().toString());
-                user.setEmail(inputEmail.getText().toString());
-                user.setPassword(inputPassword.getText().toString());
-
-                DatabaseReference userRef = databaseReference.child("users").child(user.getUid());
-
-                userRef.setValue(user);
-
-                // Clean up the form, after click on submit btn
-                cleanUpForm();
-
-                Toast.makeText(getApplicationContext(), "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
+                userRegister();
 
                 // Redirects to MainActivity(Login interface) after Sign Up
                 openMainActivity();
-
             }
         });
+    }
+
+    private void userRegister() {
+
+        User user = new User();
+
+        user.setUid(UUID.randomUUID().toString());
+        user.setFirstName(inputFirstName.getText().toString());
+        user.setLastName(inputLastName.getText().toString());
+        user.setUsername(inputUsername.getText().toString());
+        user.setEmail(inputEmail.getText().toString());
+        user.setPassword(inputPassword.getText().toString());
+
+        firebaseRef.child("users").child(user.getUid()).setValue(user);
+
+        // Clean up the form, after click on submit btn
+        cleanUpForm();
+
+        Toast.makeText(getApplicationContext(), "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
     }
 
     private void cleanUpForm() {
@@ -94,12 +96,6 @@ public class SignUpActivity extends AppCompatActivity {
         inputEmail.setText("");
         inputPassword.setText("");
         inputPasswordConfirm.setText("");
-    }
-
-    private void firebaseInit() {
-        FirebaseApp.initializeApp( SignUpActivity.this );
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
     }
 
     public void openMainActivity() {
