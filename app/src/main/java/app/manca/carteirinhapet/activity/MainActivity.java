@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -14,7 +15,8 @@ import app.manca.carteirinhapet.config.FirebaseSettings;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button logoutButton;
+    private TextView logoutLabel;
+    private Button myPetsButton;
     private FirebaseAuth auth;
 
     @Override
@@ -22,9 +24,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logoutButton = findViewById( R.id.logoutButton );
+        logoutLabel = findViewById( R.id.logoutLabel);
+        myPetsButton = findViewById( R.id.myPetsButton );
 
-        logoutButton.setOnClickListener(new View.OnClickListener() {
+        logoutLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -35,5 +38,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity( intent );
             }
         });
+
+        myPetsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent( MainActivity.this, MyPetsListActivity.class );
+                startActivity( intent );
+            }
+        });
+
     }
 }

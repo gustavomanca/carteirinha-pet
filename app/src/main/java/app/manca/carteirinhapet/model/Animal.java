@@ -1,15 +1,47 @@
 package app.manca.carteirinhapet.model;
 
+import android.util.Log;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+
+import app.manca.carteirinhapet.activity.MainActivity;
+import app.manca.carteirinhapet.activity.PetRegisterActivity;
+import app.manca.carteirinhapet.config.FirebaseSettings;
+
 public class Animal {
 
+    private String id;
+    private String type;
     private String name;
     private String genre;
     private String breed;
     private String bornDate;
-    private String owner;
-    private String animalType;
 
     public Animal() {
+    }
+
+    public void save( String userId ) {
+
+        DatabaseReference firebaseRef = FirebaseSettings.getFirebase().child("users").child( userId );
+
+        firebaseRef.child("pets").child( getId() ).setValue( this );
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {
@@ -44,19 +76,8 @@ public class Animal {
         this.bornDate = bornDate;
     }
 
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public String getAnimalType() {
-        return animalType;
-    }
-
-    public void setAnimalType(String animalType) {
-        this.animalType = animalType;
+    @Override
+    public String toString() {
+        return name;
     }
 }
