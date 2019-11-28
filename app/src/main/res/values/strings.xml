@@ -9,4 +9,5 @@
     <string name="sign_in">Entrar</string>
     <string name="sign_up">Cadastrar</string>
     <string name="back">Voltar</string>
+    <string name="logout">Sair</string>
 </resources>

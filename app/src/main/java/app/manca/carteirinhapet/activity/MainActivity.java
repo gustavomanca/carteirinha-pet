@@ -7,28 +7,33 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import app.manca.carteirinhapet.R;
+import app.manca.carteirinhapet.config.FirebaseSettings;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button signUpButton;
+    private Button logoutButton;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        signUpButton = findViewById(R.id.loginSignUpBtn);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
+        logoutButton = findViewById( R.id.logoutButton );
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSignUpActivity();
+
+                auth = FirebaseSettings.getFirebaseAuthentication();
+                auth.signOut();
+
+                Intent intent = new Intent( MainActivity.this, LoginActivity.class );
+                startActivity( intent );
             }
         });
-    }
-
-    public void openSignUpActivity() {
-        Intent intent = new Intent(this, SignUpActivity.class);
-        startActivity(intent);
     }
 }

@@ -29,7 +29,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     private DatabaseReference firebaseRef;
 
-    private Button backButton;
     private Button submitButton;
     private User user;
     private FirebaseAuth auth;
@@ -54,14 +53,6 @@ public class SignUpActivity extends AppCompatActivity {
         inputEmail = findViewById(R.id.inputEmail);
         inputPassword = findViewById(R.id.inputPassword);
         inputPasswordConfirm = findViewById(R.id.inputPasswordConfirm);
-
-        backButton = findViewById(R.id.btnBack);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMainActivity();
-            }
-        });
 
         submitButton = findViewById(R.id.btnSignUp);
         submitButton.setOnClickListener(new View.OnClickListener() {
