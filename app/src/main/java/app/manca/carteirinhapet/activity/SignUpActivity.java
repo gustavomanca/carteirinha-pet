@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
@@ -70,12 +74,53 @@ public class SignUpActivity extends AppCompatActivity {
                 user.setUsername(inputUsername.getText().toString());
                 user.setEmail(inputEmail.getText().toString());
                 user.setPassword(inputPassword.getText().toString());
-                userRegister();
 
-                // Redirects to MainActivity(Login interface) after Sign Up
-                openMainActivity();
+                handleEmptyFields();
             }
         });
+    }
+
+    private void handleEmptyFields() {
+
+        String errorMessage = "Este campo é obrigatório!";
+        String password = inputPassword.getText().toString();
+        String passwordConfirm = inputPasswordConfirm.getText().toString();
+
+        if ( TextUtils.isEmpty( inputFirstName.getText() ) ) {
+
+            inputFirstName.setError( errorMessage );
+
+        } else if ( TextUtils.isEmpty( inputLastName.getText() ) ){
+
+            inputLastName.setError( errorMessage );
+
+        } else if ( TextUtils.isEmpty( inputUsername.getText() ) ){
+
+            inputUsername.setError( errorMessage );
+
+        } else if ( TextUtils.isEmpty( inputEmail.getText() ) ){
+
+            inputEmail.setError( errorMessage );
+
+        } else if ( TextUtils.isEmpty( inputPassword.getText() ) ){
+
+            inputPassword.setError( errorMessage );
+
+        } else if ( TextUtils.isEmpty( inputPasswordConfirm.getText() ) ){
+
+            inputPasswordConfirm.setError( errorMessage );
+
+        } else if ( !password.equals( passwordConfirm ) ) {
+
+            inputPasswordConfirm.setError( "As senhas devem ser iguais!" );
+
+        } else {
+
+            inputPassword.setError( null );
+            inputPasswordConfirm.setError( null );
+
+            userRegister();
+        }
     }
 
     private void userRegister() {
@@ -101,13 +146,32 @@ public class SignUpActivity extends AppCompatActivity {
                     user.setId( firebaseUser.getUid() );
                     user.save();
 
+                    auth.signOut();
+                    finish();
+
                     cleanUpForm();
 
                 } else {
 
+                    String exceptionError = "";
+
+                    try {
+                        throw task.getException();
+                    } catch ( FirebaseAuthWeakPasswordException e ) {
+                        exceptionError = "Digite uma senha mais forte, contendo mais caracteres, com letras e números!";
+                    } catch ( FirebaseAuthInvalidCredentialsException e ) {
+                        exceptionError = "Informe um endereço de e-mail válido!";
+                        inputEmail.setError( "" );
+                    } catch ( FirebaseAuthUserCollisionException e ) {
+                        exceptionError = "Este e-mail já está cadastrado!";
+                    } catch ( Exception e ) {
+                        exceptionError = "ao cadastrar usuário!";
+                        e.printStackTrace();
+                    }
+
                     Toast.makeText(
                             SignUpActivity.this,
-                            "Erro ao cadastrar usuário!",
+                            "Erro: " + exceptionError,
                             Toast.LENGTH_LONG
                     ).show();
                 }
