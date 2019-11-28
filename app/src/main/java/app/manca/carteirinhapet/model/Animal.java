@@ -3,7 +3,13 @@ package app.manca.carteirinhapet.model;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import app.manca.carteirinhapet.activity.MainActivity;
 import app.manca.carteirinhapet.activity.PetRegisterActivity;
@@ -19,6 +25,26 @@ public class Animal {
     private String bornDate;
 
     public Animal() {
+    }
+
+    public void getData() {
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference();
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Animal pet = dataSnapshot.getValue(Animal.class);
+                System.out.println(pet);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
     }
 
     public void save( String userId ) {
