@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent( MainActivity.this, MyPetsListActivity.class );
                 startActivity( intent );
-                finish();
+//                finish();
             }
         });
 
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent( MainActivity.this, VetsListActivity.class );
                 startActivity( intent );
-                finish();
+//                finish();
             }
         });
 
