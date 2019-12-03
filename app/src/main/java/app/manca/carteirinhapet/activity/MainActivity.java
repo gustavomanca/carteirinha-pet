@@ -16,7 +16,7 @@ import app.manca.carteirinhapet.config.FirebaseSettings;
 public class MainActivity extends AppCompatActivity {
 
     private TextView logoutLabel;
-    private Button myPetsButton;
+    private Button myPetsButton, vetsButton;
     private FirebaseAuth auth;
 
     @Override
@@ -24,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logoutLabel = findViewById( R.id.logoutLabel);
+        logoutLabel = findViewById( R.id.logoutLabel );
         myPetsButton = findViewById( R.id.myPetsButton );
+        vetsButton = findViewById( R.id.vetsButton );
 
         logoutLabel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent( MainActivity.this, LoginActivity.class );
                 startActivity( intent );
+                finish();
             }
         });
 
@@ -45,6 +47,17 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent( MainActivity.this, MyPetsListActivity.class );
                 startActivity( intent );
+//                finish();
+            }
+        });
+
+        vetsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent( MainActivity.this, VetsListActivity.class );
+                startActivity( intent );
+//                finish();
             }
         });
 

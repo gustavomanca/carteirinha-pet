@@ -5,14 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,52 +20,49 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.NodeChangeListener;
-import java.util.prefs.PreferenceChangeListener;
-import java.util.prefs.Preferences;
 
 import app.manca.carteirinhapet.R;
 import app.manca.carteirinhapet.config.FirebaseSettings;
 import app.manca.carteirinhapet.model.Animal;
+import app.manca.carteirinhapet.model.Vet;
 
-public class MyPetsListActivity extends AppCompatActivity {
+import static android.widget.Toast.LENGTH_LONG;
+
+public class VetsListActivity extends AppCompatActivity {
 
     private DatabaseReference firebaseRef;
     private FirebaseAuth auth;
-    private TextView addNewPet;
+    private Button addNewVet;
     private String currentUserId;
-    private Animal pet;
-    private ListView dataList;
+    private Vet vet;
+    private ListView vetList;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
-    private List<Animal> listPets = new ArrayList<>();
-    private ArrayAdapter<Animal> arrayAdapterPets;
+    private List<Vet> listVets = new ArrayList<>();
+    private ArrayAdapter<Vet> vetArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_pets_list);
+        setContentView(R.layout.activity_vets_list);
 
         auth = FirebaseSettings.getFirebaseAuthentication();
 
-        dataList = findViewById( R.id.dataList );
+        vetList = findViewById( R.id.vetList );
 
-        addNewPet = findViewById( R.id.addNewPet );
+        addNewVet = findViewById( R.id.addNewVet );
 
-        addNewPet.setOnClickListener(new View.OnClickListener() {
+        addNewVet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent( MyPetsListActivity.this, PetRegisterActivity.class );
+                Intent intent = new Intent( VetsListActivity.this, VetsRegisterActivity.class );
                 startActivity( intent );
-//                finish();
+                finish();
             }
         });
 
@@ -81,33 +73,33 @@ public class MyPetsListActivity extends AppCompatActivity {
 
     private void databaseEvent() {
 
-        databaseReference.child("users").child( auth.getUid() ).child("pets").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("vets").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                listPets.clear();
+                listVets.clear();
 
                 for ( DataSnapshot objSnapshot:dataSnapshot.getChildren() ) {
 
-                    Animal pet = objSnapshot.getValue( Animal.class );
-                    listPets.add( pet );
+                    Vet vet = objSnapshot.getValue( Vet.class );
+                    listVets.add( vet );
                 }
 
-                arrayAdapterPets = new ArrayAdapter<Animal>( MyPetsListActivity.this,
-                        android.R.layout.simple_list_item_1, listPets);
-                dataList.setAdapter( arrayAdapterPets );
+                vetArrayAdapter = new ArrayAdapter<Vet>( VetsListActivity.this,
+                        android.R.layout.simple_list_item_1, listVets);
+                vetList.setAdapter( vetArrayAdapter);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                Toast.makeText(MyPetsListActivity.this, "Erro!", Toast.LENGTH_LONG).show();
+                Toast.makeText(VetsListActivity.this, "Erro!", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void firebaseInit() {
-        FirebaseApp.initializeApp(MyPetsListActivity.this);
+        FirebaseApp.initializeApp(VetsListActivity.this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         // firebaseDatabase.setPersistenceEnabled(true);
         databaseReference = firebaseDatabase.getReference();

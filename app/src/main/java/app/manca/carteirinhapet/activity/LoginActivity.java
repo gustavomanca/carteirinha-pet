@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,9 +55,31 @@ public class LoginActivity extends AppCompatActivity {
                 user.setEmail( email.getText().toString() );
                 user.setPassword( password.getText().toString() );
 
-                loginValidation();
+                handleEmptyFields();
             }
         });
+    }
+
+    private void handleEmptyFields() {
+
+        String errorMessage = "Este campo é obrigatório!";
+
+
+        if ( TextUtils.isEmpty( email.getText() ) ) {
+
+            email.setError( errorMessage );
+
+        } else if ( TextUtils.isEmpty( password.getText() ) )  {
+
+            password.setError( errorMessage );
+
+        } else {
+
+            email.setError( null );
+            password.setError( null );
+
+            loginValidation();
+        }
     }
 
     private void checkIfUserIsLogged() {
@@ -111,5 +134,6 @@ public class LoginActivity extends AppCompatActivity {
     public void openSignUpActivity() {
         Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
         startActivity(intent);
+        finish();
     }
 }
