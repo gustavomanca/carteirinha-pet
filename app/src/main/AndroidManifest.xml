@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.PetRegisterActivity"></activity>
+        <activity android:name=".activity.VetsRegisterActivity"></activity>
+        <activity android:name=".activity.VetsListActivity" />
+        <activity android:name=".activity.PetRegisterActivity" />
         <activity android:name=".activity.MyPetsListActivity" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.SignUpActivity" />
