@@ -24,7 +24,7 @@ public class VetsRegisterActivity extends AppCompatActivity {
 
     private DatabaseReference firebaseRef;
 
-    private Button submitNewVetButton;
+    private Button submitNewVetButton, cancelNewVetButton;
     private Vet vet;
     private FirebaseAuth auth;
 
@@ -40,7 +40,16 @@ public class VetsRegisterActivity extends AppCompatActivity {
         inputVetName = findViewById( R.id.inputVetName );
         inputVetContact = findViewById( R.id.inputVetContact );
 
+        cancelNewVetButton = findViewById( R.id.newVetCancel );
         submitNewVetButton = findViewById( R.id.submitNewVet );
+
+        cancelNewVetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                redirectToVetListView();
+            }
+        });
 
         submitNewVetButton.setOnClickListener(new View.OnClickListener() {
             @Override

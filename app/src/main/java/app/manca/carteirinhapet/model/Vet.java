@@ -41,8 +41,10 @@ public class Vet {
 
     public void save( String userId ) {
 
-        DatabaseReference firebaseRef = FirebaseSettings.getFirebase().child("users").child( userId );
+//        DatabaseReference firebaseRef = FirebaseSettings.getFirebase().child("users").child( userId );
+        DatabaseReference firebaseRef = FirebaseSettings.getFirebase();
 
+//        firebaseRef.child("vets").child( getId() ).setValue( this );
         firebaseRef.child("vets").child( getId() ).setValue( this );
     }
 

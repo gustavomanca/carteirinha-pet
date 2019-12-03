@@ -72,8 +72,9 @@ public class VetsListActivity extends AppCompatActivity {
     }
 
     private void databaseEvent() {
+//        databaseReference.child("users").child( auth.getUid() ).child("vets").addValueEventListener(new ValueEventListener() {
 
-        databaseReference.child("users").child( auth.getUid() ).child("vets").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("vets").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
